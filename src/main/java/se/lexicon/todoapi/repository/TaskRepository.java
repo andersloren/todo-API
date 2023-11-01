@@ -16,6 +16,4 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     // todo: select all un-assigned tasks
     // todo: select all un-finished tasks
     // todo: add more as needed
-
-    @Query("select p from Person p where p.title = :title")
 }
