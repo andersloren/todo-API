@@ -1,15 +1,13 @@
-package se.lexicon.todoapi.entity;
+package se.lexicon.todoapi.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 
 @Entity
 public class Role {

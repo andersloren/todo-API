@@ -1,7 +1,8 @@
-package se.lexicon.todoapi.entity;
+package se.lexicon.todoapi.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import se.lexicon.todoapi.exception.RolesNotInitializedException;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,6 +13,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString(exclude = "roles")
 @EqualsAndHashCode(exclude = "roles")
+@Builder
 
 @Entity
 @Table(name = "user")
@@ -36,20 +38,18 @@ public class User {
         this.password = password;
     }
 
-    public void addRole(Role role) throws IllegalAccessException{
-        if (role == null) throw new IllegalAccessException("Role is null");
+    public void addRole(Role role) {
+        if (role == null) throw new IllegalArgumentException("Role is null");
         if (roles == null) roles = new HashSet<>();
         roles.add(role);
     }
 
-    public void removeRole(Role role) throws IllegalAccessException{
-        if (role == null) throw new IllegalAccessException("Role is null");
+    public void removeRole(Role role) {
+        if (role == null) throw new IllegalArgumentException("Role is null");
         if (roles != null) {
             roles.remove(role);
         } else {
-            // TODO: 31/10/2023 throw exception if needed...
+            throw new RolesNotInitializedException("Roles Set is not initialized");
         }
     }
-
-
 }
