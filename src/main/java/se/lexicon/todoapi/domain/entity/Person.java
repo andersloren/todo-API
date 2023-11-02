@@ -12,24 +12,25 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"tasks", "user"})
+@ToString(exclude = {"tasks", "user"})
 @Builder
 
 @Entity
-public class Person {
+public class Person{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+        private String name;
 
-    @OneToOne
-    @JoinColumn(name = "email")
-    private User user;
+        @OneToOne
+        @JoinColumn(name = "email")
+        private User user;
 
-    @OneToMany(mappedBy = "person")
-    private List<Task> tasks = new ArrayList<>();
+        @OneToMany(mappedBy = "person")
+        private List<Task>tasks = new ArrayList<>();
 
-    public Person(String name) {
+        public Person(String name) {
         this.name = name;
     }
 

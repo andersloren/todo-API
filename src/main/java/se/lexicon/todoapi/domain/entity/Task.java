@@ -17,6 +17,14 @@ import java.util.Objects;
 @Entity
 public class Task {
 
+    public Task(String title, String description, LocalDate deadline, boolean done, Person person) {
+        this.title = title;
+        this.description = description;
+        this.deadline = deadline;
+        this.done = done;
+        this.person = person;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
