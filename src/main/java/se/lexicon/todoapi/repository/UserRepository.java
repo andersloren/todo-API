@@ -12,6 +12,8 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     Boolean existsByEmail(String email);
 
+    User getUserByEmail(String email);
+
     @Modifying
     @Query("update User u set u.expired = :status where u.email = :email")
     void updateExpiredByEmail(@Param("email") String email, @Param("status") boolean status);

@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -16,6 +15,14 @@ import java.util.Objects;
 
 @Entity
 public class Task {
+
+    // TODO: 05/11/2023 keep this?
+    public Task(String title, String description, LocalDate deadline, boolean done) {
+        this.title = title;
+        this.description = description;
+        this.deadline = deadline;
+        this.done = done;
+    }
 
     public Task(String title, String description, LocalDate deadline, boolean done, Person person) {
         this.title = title;
