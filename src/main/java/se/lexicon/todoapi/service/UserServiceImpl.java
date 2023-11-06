@@ -1,6 +1,8 @@
 package se.lexicon.todoapi.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.lexicon.todoapi.converter.UserConverter;
@@ -64,12 +66,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void disableByEmail(String email) {
         isEmailTaken(email);
         userRepository.updateExpiredByEmail(email, true);
     }
 
     @Override
+    @Transactional
     public void enableByEmail(String email) {
         isEmailTaken(email);
         userRepository.updateExpiredByEmail(email, false);

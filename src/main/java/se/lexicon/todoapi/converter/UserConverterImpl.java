@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class UserConverterImpl implements UserConverter {
 
     @Autowired
-    RoleConverter roleConverter;
+    private RoleConverter roleConverter;
 
     @Override
     public UserDTOView toUserDTOView(User entity) {
