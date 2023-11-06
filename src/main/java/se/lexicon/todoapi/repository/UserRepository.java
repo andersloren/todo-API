@@ -7,12 +7,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import se.lexicon.todoapi.domain.entity.User;
 
+import java.util.List;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
 
     Boolean existsByEmail(String email);
 
     User getUserByEmail(String email);
+
+    @Query("select u from User u")
+    List<User> getAll();
 
     @Modifying
     @Query("update User u set u.expired = :status where u.email = :email")

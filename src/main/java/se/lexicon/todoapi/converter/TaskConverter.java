@@ -7,7 +7,7 @@ import se.lexicon.todoapi.domain.entity.Task;
 @Repository
 public interface TaskConverter {
 
-    TaskDTOView toRoleDTOView(Task entity);
+    TaskDTOView toTaskDTOView(Task entity);
 
-    Task toRoleEntity(TaskDTOView dtoView);
+    Task toTaskEntity(TaskDTOView dtoView);
 }

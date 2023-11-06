@@ -1,6 +1,7 @@
 package se.lexicon.todoapi.domain.dto;
 
 import lombok.*;
+import se.lexicon.todoapi.domain.entity.Person;
 
 import java.time.LocalDate;
 
@@ -16,5 +17,6 @@ public class TaskDTOView {
     private String description;
     private LocalDate deadline;
     private boolean done;
+    private Person person;
 
 }

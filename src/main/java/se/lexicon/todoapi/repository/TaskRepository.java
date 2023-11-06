@@ -36,4 +36,7 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     List<Task> findByDoneFalseAndDeadlineBefore(LocalDate date);
 
+    @Query("select t from Task t")
+    List<Task> getAll();
+
 }

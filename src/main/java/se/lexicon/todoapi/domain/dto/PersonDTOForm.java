@@ -20,6 +20,4 @@ public class PersonDTOForm {
     private String name;
     private User user;
     private List<Task> tasks = new ArrayList<>();
-
-
 }

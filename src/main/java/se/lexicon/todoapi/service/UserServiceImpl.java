@@ -14,6 +14,7 @@ import se.lexicon.todoapi.exception.DataNotFoundException;
 import se.lexicon.todoapi.repository.RoleRepository;
 import se.lexicon.todoapi.repository.UserRepository;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -79,7 +80,14 @@ public class UserServiceImpl implements UserService {
         userRepository.updateExpiredByEmail(email, false);
     }
 
-    private void isEmailTaken(String email){
+    public void isEmailTaken(String email){
         if (!userRepository.existsByEmail(email)) throw new DataNotFoundException("Email does not exist");
+    }
+
+    public List<UserDTOView> getAll() {
+        List<User> allUsers = userRepository.getAll();
+        return allUsers.stream()
+                .map(user -> userConverter.toUserDTOView(user))
+                .toList();
     }
 }

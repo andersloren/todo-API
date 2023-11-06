@@ -10,8 +10,14 @@ import se.lexicon.todoapi.repository.PersonRepository;
 import se.lexicon.todoapi.repository.TaskRepository;
 import se.lexicon.todoapi.repository.UserRepository;
 
+import java.time.LocalDate;
+
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
-public class TaskServiceImpl {
+public class TaskServiceImpl implements TaskService{
 
     private TaskConverter taskConverter;
     private TaskRepository taskRepository;
@@ -39,6 +45,14 @@ public class TaskServiceImpl {
 
         taskRepository.findById(savedTask.getId());
 
-        return taskConverter.toRoleDTOView(savedTask);
+        return taskConverter.toTaskDTOView(savedTask);
+    }
+
+    @Override
+    public List<TaskDTOView> getAll() {
+        List<Task> allTasks = taskRepository.getAll();
+        return allTasks.stream()
+                .map(task -> taskConverter.toTaskDTOView(task))
+                .toList();
     }
 }

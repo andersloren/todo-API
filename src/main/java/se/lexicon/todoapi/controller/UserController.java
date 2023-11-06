@@ -9,6 +9,8 @@ import se.lexicon.todoapi.domain.dto.UserDTOForm;
 import se.lexicon.todoapi.domain.dto.UserDTOView;
 import se.lexicon.todoapi.service.UserService;
 
+import java.util.List;
+
 @RequestMapping("/api/v1/users")
 @RestController
 public class UserController {
@@ -29,6 +31,13 @@ public class UserController {
 
         return ResponseEntity.ok().body(responseBody);
     }
+
+    @GetMapping("/getall")
+    public ResponseEntity<List<UserDTOView>> doGetAllUsers() {
+        List<UserDTOView> responseBody = userService.getAll();
+        return ResponseEntity.ok().body(responseBody);
+    }
+
 
     @PostMapping("/")
     public ResponseEntity<UserDTOView> doRegister(@RequestBody UserDTOForm userDTOForm) {
