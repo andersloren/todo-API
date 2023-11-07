@@ -40,9 +40,11 @@ public class TaskServiceImpl implements TaskService {
         if (taskDTOForm == null) throw new IllegalArgumentException("Task form is null.");
 
         Task task = new Task(taskDTOForm.getTitle(), taskDTOForm.getDescription(), taskDTOForm.getDeadline(), taskDTOForm.isDone());
+        System.out.println(personRepository.findById(id).get());
         personRepository.findById(id).ifPresent(task::setPerson);
 
         Task savedTask = taskRepository.save(task);
+        System.out.println(savedTask);
 
         taskRepository.findById(savedTask.getId());
 
