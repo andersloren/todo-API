@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import se.lexicon.todoapi.converter.TaskConverter;
 import se.lexicon.todoapi.domain.dto.TaskDTOForm;
 import se.lexicon.todoapi.domain.dto.TaskDTOView;
+import se.lexicon.todoapi.domain.entity.Person;
 import se.lexicon.todoapi.domain.entity.Task;
 import se.lexicon.todoapi.repository.PersonRepository;
 import se.lexicon.todoapi.repository.TaskRepository;
@@ -17,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TaskServiceImpl implements TaskService{
+public class TaskServiceImpl implements TaskService {
 
     private TaskConverter taskConverter;
     private TaskRepository taskRepository;

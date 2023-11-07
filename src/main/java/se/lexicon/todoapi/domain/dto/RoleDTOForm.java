@@ -11,7 +11,6 @@ import lombok.*;
 
 public class RoleDTOForm {
 
-    // TODO: 06/11/2023 remember this one
     private Long id;
     private String name;
 }

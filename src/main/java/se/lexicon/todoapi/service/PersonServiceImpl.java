@@ -53,7 +53,7 @@ public class PersonServiceImpl implements PersonService {
     public List<PersonDTOView> getAll() {
         List<Person> allPersons = personRepository.findAll();
         return allPersons.stream()
-                .map(user -> personConverter.toPersonDTOView(user))
+                .map(person -> personConverter.toPersonDTOView(person))
                 .toList();
     }
 }

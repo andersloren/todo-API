@@ -15,6 +15,6 @@ import java.util.List;
 public class PersonDTOView {
 
     private String name;
-    private List<Task> tasks = new ArrayList<>();
+    private List<TaskDTOView> tasks = new ArrayList<>();
 
 }

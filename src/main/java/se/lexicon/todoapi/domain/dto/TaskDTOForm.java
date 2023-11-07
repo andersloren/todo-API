@@ -1,6 +1,7 @@
 package se.lexicon.todoapi.domain.dto;
 
 import lombok.*;
+import se.lexicon.todoapi.domain.entity.Person;
 
 import java.time.LocalDate;
 
