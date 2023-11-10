@@ -39,6 +39,9 @@ public class Task {
     private String description;
     private LocalDate deadline;
     private boolean done;
+    private String userEmail;
+    private String personName;
+    private boolean userExpired;
 
     @ManyToOne
     @JoinColumn(name = "person_id")

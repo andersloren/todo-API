@@ -16,5 +16,7 @@ public class PersonDTOView {
 
     private String name;
     private List<TaskDTOView> tasks = new ArrayList<>();
+    private String userEmail;
+    private boolean userExpired;
 
 }

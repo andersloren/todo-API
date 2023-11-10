@@ -38,12 +38,14 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonDTOView create(PersonDTOForm personDTOForm, String email) {
+    public PersonDTOView create(PersonDTOForm personDTOForm) {
         if (personDTOForm == null) throw new IllegalArgumentException("Person form is null.");
 
-        Person person = new Person(personDTOForm.getName());
-        person.setUser(userRepository.getUserByEmail(email));
-        person.setTasks(personDTOForm.getTasks());
+        Person person = new Person(personDTOForm.getName(),
+                userRepository.getUserByEmail(personDTOForm.getUserEmail()),
+                personDTOForm.getTasks(),
+                personDTOForm.getUserEmail(),
+                personDTOForm.isUserExpired());
 
         Person savedPerson = personRepository.save(person);
 
@@ -53,7 +55,7 @@ public class PersonServiceImpl implements PersonService {
     public List<PersonDTOView> getAll() {
         List<Person> allPersons = personRepository.findAll();
         return allPersons.stream()
-                .map(person -> personConverter.toPersonDTOView(person))
+                .map(person -> personConverter.toPersonsTaskDTOView(person))
                 .toList();
     }
 }

@@ -30,7 +30,7 @@ public class PersonController {
     @PostMapping("/")
     public ResponseEntity<PersonDTOView> doCreate(@RequestBody PersonDTOForm personDTOForm) {
 
-        PersonDTOView responseBody = personService.create(personDTOForm, userRepository.getUserByEmail("test.test@test.com").getEmail());
+        PersonDTOView responseBody = personService.create(personDTOForm);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
 

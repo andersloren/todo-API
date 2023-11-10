@@ -8,6 +8,7 @@ import se.lexicon.todoapi.domain.entity.Person;
 public interface PersonConverter {
 
     PersonDTOView toPersonDTOView(Person entity);
+    PersonDTOView toPersonsTaskDTOView(Person entity);
 
     Person toPersonEntity(PersonDTOView dtoView);
 }

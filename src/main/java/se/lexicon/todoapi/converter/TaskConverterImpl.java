@@ -28,6 +28,16 @@ public class TaskConverterImpl implements TaskConverter{
                 .done(entity.isDone())
                 .build();
     }
+//    @Override
+//    // person's task view
+//    public TaskDTOView toTaskPersonDTOView(Task entity) {
+//        return TaskDTOView.builder()
+//                .title(entity.getTitle())
+//                .description(entity.getDescription())
+//                .deadline(entity.getDeadline())
+//                .done(entity.isDone())
+//                .build();
+//    }
 
     @Override
     public Task toTaskEntity(TaskDTOView dtoView) {

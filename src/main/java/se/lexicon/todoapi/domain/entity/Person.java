@@ -16,22 +16,33 @@ import java.util.Objects;
 @Builder
 
 @Entity
-public class Person{
+public class Person {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
-        private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
 
-        @OneToOne
-        @JoinColumn(name = "email")
-        private User user;
+    @OneToOne
+    @JoinColumn(name = "email")
+    private User user;
 
-        @OneToMany(mappedBy = "person")
-        private List<Task>tasks = new ArrayList<>();
+    @OneToMany(mappedBy = "person")
+    private List<Task> tasks = new ArrayList<>();
 
-        public Person(String name) {
+    public Person(String name) {
         this.name = name;
+    }
+
+    private String userEmail;
+    private boolean userExpired;
+
+    public Person(String name, User user, List<Task> tasks, String userEmail, boolean userExpired) {
+        this.name = name;
+        this.user = user;
+        this.tasks = tasks;
+        this.userEmail = userEmail;
+        this.userExpired = userExpired;
     }
 
     public void addTask(Task... tasks) {
