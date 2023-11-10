@@ -68,6 +68,14 @@
             <version>2.2.224</version>
         </dependency>
 
+        <dependency>
+            <groupId>se.lexicon</groupId>
+            <artifactId>g46-email-sender</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>C:/Users/AndersLorén/IdeaProjects/libs/g46-email-sender-api.jar</systemPath>
+        </dependency>
+
     </dependencies>
 
     <build>

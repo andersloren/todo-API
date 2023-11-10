@@ -2,9 +2,16 @@ package se.lexicon.todoapi.service;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import se.lexicon.g46emailsenderapi.converter.EmailConverter;
+import se.lexicon.g46emailsenderapi.domain.dto.EmailDTOForm;
+import se.lexicon.g46emailsenderapi.domain.dto.EmailDTOView;
+import se.lexicon.g46emailsenderapi.domain.entity.Email;
+import se.lexicon.g46emailsenderapi.repository.EmailRepository;
+import se.lexicon.g46emailsenderapi.service.EmailService;
+import se.lexicon.g46emailsenderapi.service.EmailServiceImpl;
 import se.lexicon.todoapi.converter.UserConverter;
 import se.lexicon.todoapi.domain.dto.UserDTOForm;
 import se.lexicon.todoapi.domain.dto.UserDTOView;
@@ -14,10 +21,12 @@ import se.lexicon.todoapi.exception.DataNotFoundException;
 import se.lexicon.todoapi.repository.RoleRepository;
 import se.lexicon.todoapi.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@ComponentScan
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -25,16 +34,19 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     private UserConverter userConverter;
+    private EmailService emailService;
+    private EmailRepository emailRepository;
+    private EmailConverter emailConverter;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository,
-                           RoleRepository roleRepository,
-                           PasswordEncoder passwordEncoder,
-                           UserConverter userConverter) {
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserConverter userConverter, EmailService emailService, EmailRepository emailRepository, EmailConverter emailConverter) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.userConverter = userConverter;
+        this.emailService = emailService;
+        this.emailRepository = emailRepository;
+        this.emailConverter = emailConverter;
     }
 
     @Override
@@ -54,7 +66,27 @@ public class UserServiceImpl implements UserService {
         User user = new User(userDTOForm.getEmail(), passwordEncoder.encode(userDTOForm.getPassword()));
         user.setRoles(roleList);
 
-        User savedUser = userRepository.save(user);
+        EmailDTOForm sentEmail = new EmailDTOForm(userDTOForm.getEmail(),
+                "Registration Confirmed",
+                "You've successfully registered you new user",
+                1);
+
+        emailRepository.save(emailConverter.fromFormToEntity(sentEmail));
+
+        emailService.sendEmail(sentEmail);
+
+
+//
+//        private String id;
+//        private String from;
+//        private String to;
+//        private String subject;
+//        private String content;
+//        private List<String> attachments;
+//        private LocalDateTime dateTime;
+//        private Integer type;
+
+                User savedUser = userRepository.save(user);
 
         return userConverter.toUserDTOView(savedUser);
     }
@@ -80,7 +112,7 @@ public class UserServiceImpl implements UserService {
         userRepository.updateExpiredByEmail(email, false);
     }
 
-    public void isEmailTaken(String email){
+    public void isEmailTaken(String email) {
         if (!userRepository.existsByEmail(email)) throw new DataNotFoundException("Email does not exist");
     }
 
