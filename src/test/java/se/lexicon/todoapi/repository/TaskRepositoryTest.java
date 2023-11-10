@@ -89,7 +89,7 @@ class TaskRepositoryTest {
 
     @Test
     void testFindByPersonNull() {
-        Person person = new Person("name");
+        Person person = new Person("name", "test.test@test.com");
         personRepository.save(person);
 
         Task task1 = new Task();

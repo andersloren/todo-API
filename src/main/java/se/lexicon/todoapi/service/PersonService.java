@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface PersonService {
 
-    PersonDTOView create(PersonDTOForm personDTOForm, String email);
+    PersonDTOView create(PersonDTOForm personDTOForm);
 
     List<PersonDTOView> getAll();
 }

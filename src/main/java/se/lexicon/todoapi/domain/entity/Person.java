@@ -16,23 +16,26 @@ import java.util.Objects;
 @Builder
 
 @Entity
-public class Person{
+public class Person {
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
-        private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String name;
 
-        @OneToOne
-        @JoinColumn(name = "email")
-        private User user;
+    @OneToOne
+    @JoinColumn(name = "email")
+    private User user;
 
-        @OneToMany(mappedBy = "person")
-        private List<Task>tasks = new ArrayList<>();
+    @OneToMany(mappedBy = "person")
+    private List<Task> tasks = new ArrayList<>();
 
-        public Person(String name) {
+    public Person(String name, String userEmail) {
         this.name = name;
+        this.userEmail = userEmail;
     }
+
+    private String userEmail;
 
     public void addTask(Task... tasks) {
         if (Objects.requireNonNull(tasks).length == 0) throw new IllegalArgumentException("Tasks is empty");

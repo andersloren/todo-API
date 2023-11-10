@@ -16,6 +16,7 @@ public class PersonConverterImpl implements PersonConverter {
     public PersonDTOView toPersonDTOView(Person entity) {
         return PersonDTOView.builder()
                 .name(entity.getName())
+                .userEmail(entity.getUserEmail())
                 .tasks(entity.getTasks().stream()
                         .map(task -> taskConverter.toTaskDTOView(task))
                         .toList())
@@ -26,6 +27,7 @@ public class PersonConverterImpl implements PersonConverter {
     public Person toPersonEntity(PersonDTOView dtoView) {
         return Person.builder()
                 .name(dtoView.getName())
+                .userEmail(dtoView.getUserEmail())
                 .tasks(dtoView.getTasks().stream()
                         .map(taskDTOView -> taskConverter.toTaskEntity(taskDTOView))
                         .toList())

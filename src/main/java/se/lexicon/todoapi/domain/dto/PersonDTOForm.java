@@ -19,5 +19,7 @@ public class PersonDTOForm {
     private Long id;
     private String name;
     private User user;
+    private String userEmail;
     private List<Task> tasks = new ArrayList<>();
+
 }

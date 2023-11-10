@@ -26,6 +26,7 @@ public class TaskConverterImpl implements TaskConverter{
                 .description(entity.getDescription())
                 .deadline(entity.getDeadline())
                 .done(entity.isDone())
+                .person(entity.getPerson())
                 .build();
     }
 

@@ -14,4 +14,6 @@ import java.util.Optional;
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
     List<Person> findPersonByTasksIsEmpty();
+
+    Person findByUserEmail(String email);
 }

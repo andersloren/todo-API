@@ -15,6 +15,6 @@ import java.util.List;
 public class PersonDTOView {
 
     private String name;
+    private String userEmail;
     private List<TaskDTOView> tasks = new ArrayList<>();
-
 }

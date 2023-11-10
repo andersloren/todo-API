@@ -38,11 +38,11 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonDTOView create(PersonDTOForm personDTOForm, String email) {
+    public PersonDTOView create(PersonDTOForm personDTOForm) {
         if (personDTOForm == null) throw new IllegalArgumentException("Person form is null.");
 
-        Person person = new Person(personDTOForm.getName());
-        person.setUser(userRepository.getUserByEmail(email));
+        Person person = new Person(personDTOForm.getName(), personDTOForm.getUserEmail());
+        person.setUser(userRepository.getUserByEmail(personDTOForm.getUserEmail()));
         person.setTasks(personDTOForm.getTasks());
 
         Person savedPerson = personRepository.save(person);

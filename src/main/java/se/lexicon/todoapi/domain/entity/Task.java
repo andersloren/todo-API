@@ -39,6 +39,7 @@ public class Task {
     private String description;
     private LocalDate deadline;
     private boolean done;
+    private String userEmail;
 
     @ManyToOne
     @JoinColumn(name = "person_id")
