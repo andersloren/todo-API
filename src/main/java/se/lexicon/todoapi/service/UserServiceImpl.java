@@ -71,8 +71,6 @@ public class UserServiceImpl implements UserService {
                 "You've successfully registered you new user",
                 1);
 
-        emailRepository.save(emailConverter.fromFormToEntity(sentEmail));
-
         emailService.sendEmail(sentEmail);
 
 
