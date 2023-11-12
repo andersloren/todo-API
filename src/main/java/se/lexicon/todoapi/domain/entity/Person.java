@@ -1,5 +1,6 @@
 package se.lexicon.todoapi.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,6 +28,7 @@ public class Person{
         @JoinColumn(name = "email")
         private User user;
 
+        @JsonIgnore
         @OneToMany(mappedBy = "person")
         private List<Task>tasks = new ArrayList<>();
 

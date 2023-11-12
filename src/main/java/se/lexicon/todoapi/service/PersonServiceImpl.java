@@ -17,23 +17,21 @@ import se.lexicon.todoapi.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PersonServiceImpl implements PersonService {
 
     private PersonRepository personRepository;
     private PersonConverter personConverter;
-    private TaskRepository taskRepository;
     private UserRepository userRepository;
 
     @Autowired
     public PersonServiceImpl(PersonRepository personRepository,
                              PersonConverter personConverter,
-                             TaskRepository taskRepository,
                              UserRepository userRepository) {
         this.personRepository = personRepository;
         this.personConverter = personConverter;
-        this.taskRepository = taskRepository;
         this.userRepository = userRepository;
     }
 

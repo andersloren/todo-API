@@ -3,18 +3,16 @@ package se.lexicon.todoapi.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.lexicon.todoapi.converter.TaskConverter;
+import se.lexicon.todoapi.domain.dto.PersonDTOView;
 import se.lexicon.todoapi.domain.dto.TaskDTOForm;
 import se.lexicon.todoapi.domain.dto.TaskDTOView;
-import se.lexicon.todoapi.domain.entity.Person;
 import se.lexicon.todoapi.domain.entity.Task;
+import se.lexicon.todoapi.exception.DataNotFoundException;
 import se.lexicon.todoapi.repository.PersonRepository;
 import se.lexicon.todoapi.repository.TaskRepository;
 import se.lexicon.todoapi.repository.UserRepository;
 
 import java.time.LocalDate;
-
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,15 +38,25 @@ public class TaskServiceImpl implements TaskService {
         if (taskDTOForm == null) throw new IllegalArgumentException("Task form is null.");
 
         Task task = new Task(taskDTOForm.getTitle(), taskDTOForm.getDescription(), taskDTOForm.getDeadline(), taskDTOForm.isDone());
-        System.out.println(personRepository.findById(id).get());
-        personRepository.findById(id).ifPresent(task::setPerson);
 
         Task savedTask = taskRepository.save(task);
-        System.out.println(savedTask);
 
         taskRepository.findById(savedTask.getId());
 
         return taskConverter.toTaskDTOView(savedTask);
+    }
+
+    @Override
+    public TaskDTOView associateTaskWithPerson(Long id, String email) {
+
+        if (taskRepository.findById(id).isEmpty()) throw new DataNotFoundException("Task does not exist.");
+
+        Task unassignedTask = taskRepository.findById(id).get();
+        unassignedTask.setPerson(personRepository.findByUser(userRepository.getUserByEmail(email)));
+        System.out.println(unassignedTask.getPerson().getName());
+
+        Task assignedTask = taskRepository.save(unassignedTask);
+        return taskConverter.toTaskDTOView(assignedTask);
     }
 
     @Override

@@ -8,6 +8,4 @@ import se.lexicon.todoapi.domain.entity.Task;
 public interface TaskConverter {
 
     TaskDTOView toTaskDTOView(Task entity);
-
-    Task toTaskEntity(TaskDTOView dtoView);
 }

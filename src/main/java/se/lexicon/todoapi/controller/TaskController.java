@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import se.lexicon.todoapi.domain.dto.PersonDTOView;
 import se.lexicon.todoapi.domain.dto.TaskDTOForm;
 import se.lexicon.todoapi.domain.dto.TaskDTOView;
 import se.lexicon.todoapi.repository.PersonRepository;
@@ -32,6 +33,12 @@ public class TaskController {
         TaskDTOView responseBody = taskService.saveTask(taskDTOForm, personRepository.findById(1L).get().getId());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
+    }
+
+    @PutMapping("/{id}/persons/{email}")
+    public ResponseEntity<TaskDTOView> doAssociateTaskWithPerson(@PathVariable Long id, @PathVariable String email) {
+        TaskDTOView responseBody = taskService.associateTaskWithPerson(id, email);
+        return ResponseEntity.ok().body(responseBody);
     }
 
     @GetMapping("/getall")

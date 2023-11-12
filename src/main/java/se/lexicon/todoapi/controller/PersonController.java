@@ -1,5 +1,6 @@
 package se.lexicon.todoapi.controller;
 
+import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,19 +19,16 @@ import java.util.List;
 public class PersonController {
 
     private final PersonService personService;
-    private final UserRepository userRepository;
 
     @Autowired
-    public PersonController(PersonService personService,
-                            UserRepository userRepository) {
+    public PersonController(PersonService personService) {
         this.personService = personService;
-        this.userRepository = userRepository;
     }
 
     @PostMapping("/")
     public ResponseEntity<PersonDTOView> doCreate(@RequestBody PersonDTOForm personDTOForm) {
 
-        PersonDTOView responseBody = personService.create(personDTOForm, userRepository.getUserByEmail("test.test@test.com").getEmail());
+        PersonDTOView responseBody = personService.create(personDTOForm, "test.test@test.com");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseBody);
 

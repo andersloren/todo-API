@@ -8,6 +8,4 @@ import se.lexicon.todoapi.domain.entity.User;
 public interface UserConverter {
 
     UserDTOView toUserDTOView(User entity);
-
-    User toUserEntity(UserDTOView dtoView);
 }

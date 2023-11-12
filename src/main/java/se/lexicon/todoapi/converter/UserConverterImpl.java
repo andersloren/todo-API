@@ -29,20 +29,4 @@ public class UserConverterImpl implements UserConverter {
 
         return userDTOView;
     }
-
-    @Override
-    public User toUserEntity(UserDTOView dtoView) {
-        if (dtoView == null) {
-            return null;
-        }
-
-        User user = new User();
-        user.setEmail(dtoView.getEmail());
-
-        user.setRoles(dtoView.getRoles().stream()
-                .map(roleConverter::toRoleEntity)
-                .collect(Collectors.toSet()));
-
-        return user;
-    }
 }

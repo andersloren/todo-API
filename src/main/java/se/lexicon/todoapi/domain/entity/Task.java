@@ -40,7 +40,7 @@ public class Task {
     private LocalDate deadline;
     private boolean done;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "person_id")
     private Person person;
 
