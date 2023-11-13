@@ -1,6 +1,5 @@
 package se.lexicon.todoapi.domain.dto;
 
-import jakarta.persistence.Column;
 import lombok.*;
 
 @Getter

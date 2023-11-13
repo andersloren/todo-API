@@ -2,7 +2,6 @@ package se.lexicon.todoapi.converter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.lexicon.todoapi.domain.dto.RoleDTOView;
 import se.lexicon.todoapi.domain.dto.UserDTOView;
 import se.lexicon.todoapi.domain.entity.User;
 
@@ -11,8 +10,13 @@ import java.util.stream.Collectors;
 @Component
 public class UserConverterImpl implements UserConverter {
 
+
+    private final RoleConverter roleConverter;
+
     @Autowired
-    private RoleConverter roleConverter;
+    public UserConverterImpl(RoleConverter roleConverter) {
+        this.roleConverter = roleConverter;
+    }
 
     @Override
     public UserDTOView toUserDTOView(User entity) {

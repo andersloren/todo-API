@@ -1,9 +1,10 @@
 package se.lexicon.todoapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.todoapi.converter.TaskConverter;
-import se.lexicon.todoapi.domain.dto.PersonDTOView;
 import se.lexicon.todoapi.domain.dto.TaskDTOForm;
 import se.lexicon.todoapi.domain.dto.TaskDTOView;
 import se.lexicon.todoapi.domain.entity.Task;
@@ -12,16 +13,15 @@ import se.lexicon.todoapi.repository.PersonRepository;
 import se.lexicon.todoapi.repository.TaskRepository;
 import se.lexicon.todoapi.repository.UserRepository;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class TaskServiceImpl implements TaskService {
 
-    private TaskConverter taskConverter;
-    private TaskRepository taskRepository;
-    private PersonRepository personRepository;
-    private UserRepository userRepository;
+    private final TaskConverter taskConverter;
+    private final TaskRepository taskRepository;
+    private final PersonRepository personRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public TaskServiceImpl(TaskConverter taskConverter,
@@ -34,6 +34,7 @@ public class TaskServiceImpl implements TaskService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public TaskDTOView saveTask(TaskDTOForm taskDTOForm, Long id) {
         if (taskDTOForm == null) throw new IllegalArgumentException("Task form is null.");
 
@@ -47,6 +48,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Modifying
     public TaskDTOView associateTaskWithPerson(Long id, String email) {
 
         if (taskRepository.findById(id).isEmpty()) throw new DataNotFoundException("Task does not exist.");
@@ -60,10 +62,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<TaskDTOView> getAll() {
         List<Task> allTasks = taskRepository.getAll();
         return allTasks.stream()
-                .map(task -> taskConverter.toTaskDTOView(task))
+                .map(taskConverter::toTaskDTOView)
                 .toList();
     }
 }

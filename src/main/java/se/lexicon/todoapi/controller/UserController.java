@@ -32,7 +32,7 @@ public class UserController {
         return ResponseEntity.ok().body(responseBody);
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public ResponseEntity<List<UserDTOView>> doGetAllUsers() {
         List<UserDTOView> responseBody = userService.getAll();
         return ResponseEntity.ok().body(responseBody);

@@ -2,6 +2,7 @@ package se.lexicon.todoapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.todoapi.converter.RoleConverter;
 import se.lexicon.todoapi.domain.dto.RoleDTOView;
 import se.lexicon.todoapi.domain.entity.Role;
@@ -15,6 +16,7 @@ public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
     private final RoleConverter roleConverter;
+
     @Autowired
     public RoleServiceImpl(RoleRepository roleRepository, RoleConverter roleConverter) {
         this.roleRepository = roleRepository;
@@ -22,6 +24,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<RoleDTOView> getAll() {
         List<Role> roles = roleRepository.findAll();
 

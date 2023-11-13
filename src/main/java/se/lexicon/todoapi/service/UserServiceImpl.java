@@ -1,17 +1,15 @@
 package se.lexicon.todoapi.service;
 
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.g46emailsenderapi.converter.EmailConverter;
 import se.lexicon.g46emailsenderapi.domain.dto.EmailDTOForm;
-import se.lexicon.g46emailsenderapi.domain.dto.EmailDTOView;
-import se.lexicon.g46emailsenderapi.domain.entity.Email;
 import se.lexicon.g46emailsenderapi.repository.EmailRepository;
 import se.lexicon.g46emailsenderapi.service.EmailService;
-import se.lexicon.g46emailsenderapi.service.EmailServiceImpl;
 import se.lexicon.todoapi.converter.UserConverter;
 import se.lexicon.todoapi.domain.dto.UserDTOForm;
 import se.lexicon.todoapi.domain.dto.UserDTOView;
@@ -21,7 +19,6 @@ import se.lexicon.todoapi.exception.DataNotFoundException;
 import se.lexicon.todoapi.repository.RoleRepository;
 import se.lexicon.todoapi.repository.UserRepository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,11 +29,11 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
-    private UserConverter userConverter;
-    private EmailService emailService;
-    private EmailRepository emailRepository;
-    private EmailConverter emailConverter;
+    private final PasswordEncoder passwordEncoder;
+    private final UserConverter userConverter;
+    private final EmailService emailService;
+    private final EmailRepository emailRepository;
+    private final EmailConverter emailConverter;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserConverter userConverter, EmailService emailService, EmailRepository emailRepository, EmailConverter emailConverter) {
@@ -50,6 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDTOView register(UserDTOForm userDTOForm) { // test.test@.se , 123456 , [ADMIN,USER])
         if (userDTOForm == null) throw new IllegalArgumentException("User form is null.");
 
@@ -75,23 +73,13 @@ public class UserServiceImpl implements UserService {
 
         emailService.sendEmail(sentEmail);
 
-
-//
-//        private String id;
-//        private String from;
-//        private String to;
-//        private String subject;
-//        private String content;
-//        private List<String> attachments;
-//        private LocalDateTime dateTime;
-//        private Integer type;
-
-                User savedUser = userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
         return userConverter.toUserDTOView(savedUser);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserDTOView getByEmail(String email) {
         User foundUser = userRepository.findById(email).orElseThrow(() -> new DataNotFoundException("Email does not exist."));
 
@@ -99,14 +87,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
+    @Modifying
     public void disableByEmail(String email) {
         isEmailTaken(email);
         userRepository.updateExpiredByEmail(email, true);
     }
 
     @Override
-    @Transactional
+    @Modifying
     public void enableByEmail(String email) {
         isEmailTaken(email);
         userRepository.updateExpiredByEmail(email, false);
@@ -116,10 +104,12 @@ public class UserServiceImpl implements UserService {
         if (!userRepository.existsByEmail(email)) throw new DataNotFoundException("Email does not exist");
     }
 
+    @Override
+    @Transactional(readOnly = true)
     public List<UserDTOView> getAll() {
         List<User> allUsers = userRepository.getAll();
         return allUsers.stream()
-                .map(user -> userConverter.toUserDTOView(user))
+                .map(userConverter::toUserDTOView)
                 .toList();
     }
 }

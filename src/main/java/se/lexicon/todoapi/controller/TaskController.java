@@ -4,11 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.lexicon.todoapi.domain.dto.PersonDTOView;
 import se.lexicon.todoapi.domain.dto.TaskDTOForm;
 import se.lexicon.todoapi.domain.dto.TaskDTOView;
 import se.lexicon.todoapi.repository.PersonRepository;
-import se.lexicon.todoapi.service.PersonService;
 import se.lexicon.todoapi.service.TaskService;
 
 import java.util.List;
@@ -41,7 +39,7 @@ public class TaskController {
         return ResponseEntity.ok().body(responseBody);
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public ResponseEntity<List<TaskDTOView>> doGetAll() {
         List<TaskDTOView> responseBody = taskService.getAll();
         return ResponseEntity.ok().body(responseBody);

@@ -2,7 +2,6 @@ package se.lexicon.todoapi.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import se.lexicon.todoapi.domain.entity.Task;
 
@@ -30,9 +29,6 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> selectUnFinishedTasks();
 
     List<Task> findByDoneFalse();
-
-//    @Query("select t from Task t where t.done = false and current_date > t.deadline")
-//    List<Task> selectTasksByNotDoneAndOverdue();
 
     List<Task> findByDoneFalseAndDeadlineBefore(LocalDate date);
 

@@ -9,7 +9,7 @@ import se.lexicon.todoapi.domain.entity.Person;
 @Component
 public class PersonConverterImpl implements PersonConverter {
 
-    private SimplePersonConverter simplePersonConverter;
+    private final SimplePersonConverter simplePersonConverter;
 
     @Autowired
     public PersonConverterImpl(SimplePersonConverter simplePersonConverter) {

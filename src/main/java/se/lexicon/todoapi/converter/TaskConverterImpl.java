@@ -2,7 +2,6 @@ package se.lexicon.todoapi.converter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import se.lexicon.todoapi.domain.dto.PersonDTOView;
 import se.lexicon.todoapi.domain.dto.TaskDTOView;
 import se.lexicon.todoapi.domain.entity.Task;
 

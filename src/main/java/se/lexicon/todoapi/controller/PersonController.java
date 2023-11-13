@@ -1,15 +1,11 @@
 package se.lexicon.todoapi.controller;
 
-import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.lexicon.todoapi.domain.dto.PersonDTOForm;
 import se.lexicon.todoapi.domain.dto.PersonDTOView;
-import se.lexicon.todoapi.domain.dto.TaskDTOForm;
-import se.lexicon.todoapi.domain.dto.UserDTOView;
-import se.lexicon.todoapi.repository.UserRepository;
 import se.lexicon.todoapi.service.PersonService;
 
 import java.util.List;
@@ -35,7 +31,7 @@ public class PersonController {
         // TODO: 06/11/2023 do this
     }
 
-    @GetMapping("/getall")
+    @GetMapping("/getAll")
     public ResponseEntity<List<PersonDTOView>> doGetAll() {
         List<PersonDTOView> responseBody = personService.getAll();
         return ResponseEntity.ok().body(responseBody);

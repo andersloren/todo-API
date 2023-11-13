@@ -2,29 +2,22 @@ package se.lexicon.todoapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se.lexicon.todoapi.converter.PersonConverter;
 import se.lexicon.todoapi.domain.dto.PersonDTOForm;
 import se.lexicon.todoapi.domain.dto.PersonDTOView;
-import se.lexicon.todoapi.domain.dto.TaskDTOForm;
-import se.lexicon.todoapi.domain.dto.UserDTOView;
 import se.lexicon.todoapi.domain.entity.Person;
-import se.lexicon.todoapi.domain.entity.Task;
-import se.lexicon.todoapi.domain.entity.User;
-import se.lexicon.todoapi.exception.DataNotFoundException;
 import se.lexicon.todoapi.repository.PersonRepository;
-import se.lexicon.todoapi.repository.TaskRepository;
 import se.lexicon.todoapi.repository.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class PersonServiceImpl implements PersonService {
 
-    private PersonRepository personRepository;
-    private PersonConverter personConverter;
-    private UserRepository userRepository;
+    private final PersonRepository personRepository;
+    private final PersonConverter personConverter;
+    private final UserRepository userRepository;
 
     @Autowired
     public PersonServiceImpl(PersonRepository personRepository,
@@ -36,6 +29,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    @Transactional
     public PersonDTOView create(PersonDTOForm personDTOForm, String email) {
         if (personDTOForm == null) throw new IllegalArgumentException("Person form is null.");
 
@@ -48,10 +42,11 @@ public class PersonServiceImpl implements PersonService {
         return personConverter.toPersonDTOView(savedPerson);
     }
 
+    @Transactional(readOnly = true)
     public List<PersonDTOView> getAll() {
         List<Person> allPersons = personRepository.findAll();
         return allPersons.stream()
-                .map(person -> personConverter.toPersonDTOView(person))
+                .map(personConverter::toPersonDTOView)
                 .toList();
     }
 }
